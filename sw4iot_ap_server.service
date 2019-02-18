@@ -1,0 +1,13 @@
+[Unit]
+Description=SOFTWAY4IoT AP server
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/home/phelipe/Documents/git/sw4iot/SOFTWAY4IoT-CreateAPServer
+Environment="PATH=/home/phelipe/Documents/git/sw4iot/SOFTWAY4IoT-CreateAPServer/venv/bin"
+ExecStart=/home/phelipe/Documents/git/sw4iot/SOFTWAY4IoT-CreateAPServer/venv/bin/gunicorn --workers 3 --bind unix:sw4iot_ap_server.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
