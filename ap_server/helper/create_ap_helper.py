@@ -18,22 +18,22 @@ class CreateApHelper:
     def list_ap_running():
         aps = []
         try:
-            p = subprocess.run(['create_ap', '--list-running'], stdout=subprocess.PIPE)
+            p = subprocess.run(['/usr/bin/create_ap', '--list-running'], stdout=subprocess.PIPE)
             if p.returncode == 0:
                 aps = [{'wiface': x.split()[1], 'wlan': clear_ap_name(x.split()[2])} for x in
                        p.stdout.decode("utf-8").split('\n')[2:] if len(x) > 2]
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(e)
         return aps
 
     @staticmethod
     def stop_ap(ap_name):
         try:
-            p = subprocess.run(["create_ap", '--stop', ap_name], stdout=subprocess.PIPE)
+            p = subprocess.run(["/usr/bin/create_ap", '--stop', ap_name], stdout=subprocess.PIPE)
             if p.returncode == 0:
                 return True
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(e)
         return False
 
     @staticmethod
@@ -48,7 +48,7 @@ class CreateApHelper:
             os.system('rfkill unblock wlan')
 
             os.system(
-                'create_ap -m bridge {} {} {} {} --virt-prefix {} -c {} -w {} --no-dns --daemon'.format(wiface, bridge,
+                '/usr/bin/create_ap -m bridge {} {} {} {} --virt-prefix {} -c {} -w {} --no-dns --daemon'.format(wiface, bridge,
                                                                                                         ssid, password,
                                                                                                         virt_prefix,
                                                                                                         channel,
@@ -77,4 +77,5 @@ class CreateApHelper:
             # else, return the created virtual WiFi interface
             return list(ap_diff)
         except Exception as e:
+            logger.error(e)
             raise Exception("Could not create the ap interface with prefix {}".format(virt_prefix))
