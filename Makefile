@@ -14,7 +14,7 @@ install:
 	# cp service to systemd
 	cp $(PREFIX)/$(SERVICE) /etc/systemd/system/
 	# install dependencies
-	virtualenv $(PREFIX)/venv -p python3
+	python3 -m venv $(PREFIX)/venv
 	$(PREFIX)/venv/bin/pip install -r requirements.txt
 	# 
 	systemctl stop $(SERVICE)
