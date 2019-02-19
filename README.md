@@ -1,11 +1,19 @@
 #SOFTWAY4IoT-CreateAPServer
 
+Dependencies
+```
+$ apt install python-dev
+$ apt install hostapd
+$ apt install iproute2
+$ apt install iw
+$ apt install haveged (optional)
+```
+
 Install **create_ap** tool
 ```
 git clone https://github.com/sw4iot/create_ap.git
 cd create_ap
 make install
-apt install haveged
 ```
 
 Install **CreateAPServer** tool
