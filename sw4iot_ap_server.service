@@ -5,8 +5,8 @@ After=network.target
 [Service]
 User=root
 Group=root
-WorkingDirectory=/opt/sw4iot/SOFTWAY4IoT-CreateAPServer
-ExecStart=/opt/sw4iot/SOFTWAY4IoT-CreateAPServer/venv/bin/gunicorn --workers 3 --bind unix:sw4iot_ap_server.sock -m 644 wsgi:app
+WorkingDirectory=/opt/sw4iot/CreateAPServer
+ExecStart=/opt/sw4iot/CreateAPServer/venv/bin/gunicorn --workers 3 --bind unix:sw4iot_ap_server.sock -m 644 wsgi:app
 KillSignal=SIGINT
 Restart=on-failure
 RestartSec=5
