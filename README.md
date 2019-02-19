@@ -10,8 +10,8 @@ apt install haveged
 
 Install **CreateAPServer** tool
 ```
-git clone https://github.com/LABORA-INF-UFG/SOFTWAY4IoT-CreateAPServer.git create_ap_server
-cd create_ap_server
+git clone https://github.com/LABORA-INF-UFG/SOFTWAY4IoT-CreateAPServer.git CreateAPServer
+cd CreateAPServer
 make install
 ```
 
