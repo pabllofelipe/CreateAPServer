@@ -20,7 +20,7 @@ def get_ap_running():
 
 
 @app.route("/stop_ap/<string:ap_name>", methods=['DELETE'])
-def stop_ap(ap_name):
+def delete_stop_ap(ap_name):
     logger.info("Stop AP {}".format(ap_name))
     status = ap_helper.stop_ap(ap_name)
     logger.info("AP {} stop: {}".format(ap_name, status))
@@ -28,7 +28,7 @@ def stop_ap(ap_name):
 
 
 @app.route("/create_ap", methods=['POST'])
-def create_ap():
+def post_create_ap():
     try:
         ap = CreateApSchema().load(request.json)
     except ValidationError as err:
@@ -42,7 +42,3 @@ def create_ap():
     except Exception as e:
         logger.error(e)
         return jsonify({"error": str(e)}), 500
-
-
-# if __name__ == "__main__":
-#     app.run(host='0.0.0.0')

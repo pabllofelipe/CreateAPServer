@@ -11,7 +11,7 @@ class CreateApSchema(Schema):
     virt_prefix = fields.Str(required=True)
     channel = fields.Str(default=1)
     wpa_version = fields.Str(default="1+2")
-    timeout = fields.Int(default=40)
+    timeout = fields.Int(default=30)
 
     @post_load
     def make_slice(self, data):
