@@ -2,7 +2,7 @@
 
 Install **create_ap** tool
 ```
-git clone https://github.com/phelipealves/create_ap.git
+git clone https://github.com/sw4iot/create_ap.git
 cd create_ap
 make install
 apt install haveged
