@@ -1,5 +1,7 @@
 PREFIX=/opt/sw4iot/CreateAPServer
 SERVICE=sw4iot_ap_server.service
+SOCK=sw4iot_ap_server.sock
+RUN=/run/sw4iot
 
 all:
 	@echo "Run 'make install' for installation."
@@ -21,6 +23,8 @@ install:
 	systemctl start $(SERVICE)
 	systemctl enable $(SERVICE)
 	systemctl daemon-reload
+	mkdir -p $(RUN)
+	ln -s $(PREFIX)/$(SOCK) $(RUN)/$(SOCK)
 
 uninstall:
 	# disable and remove service
@@ -30,3 +34,4 @@ uninstall:
 	systemctl daemon-reload
 	# remove opt directory
 	rm -rf $(PREFIX)
+	rm $(RUN)/$(SOCK)
