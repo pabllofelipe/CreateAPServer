@@ -32,12 +32,13 @@ class Model(JsonSerializable):
 
 
 class CreateApModel(Model):
-    def __init__(self, wiface, bridge, ssid, password, virt_prefix, channel=1, wpa_version='1+2', timeout=30):
+    def __init__(self, wiface, bridge, ssid, virt_prefix, password=None, freq_band="2.4", channel=1, wpa_version='1+2', timeout=30):
         self.wiface = wiface
         self.bridge = bridge
         self.ssid = ssid
         self.password = password
         self.virt_prefix = virt_prefix
+        self.freq_band = freq_band
         self.channel = channel
         self.wpa_version = wpa_version
         self.timeout = timeout

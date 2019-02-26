@@ -16,6 +16,11 @@ class CreateApHelper:
 
     @staticmethod
     def list_ap_running():
+        """
+        List all running AP
+
+        :return:
+        """
         aps = []
         try:
             p = subprocess.run(['/usr/bin/create_ap', '--list-running'], stdout=subprocess.PIPE)
@@ -28,6 +33,11 @@ class CreateApHelper:
 
     @staticmethod
     def stop_ap(ap_name):
+        """
+        Stop the AP
+
+        :rtype: bool
+        """
         try:
             p = subprocess.run(["/usr/bin/create_ap", '--stop', ap_name], stdout=subprocess.PIPE)
             if p.returncode == 0:
@@ -38,7 +48,22 @@ class CreateApHelper:
 
     @staticmethod
     @retry(reraise=True, stop=stop_after_attempt(3))
-    def create_ap(wiface, bridge, ssid, password, virt_prefix, channel=1, wpa_version="1+2", timeout=30):
+    def create_ap(wiface, bridge, ssid, virt_prefix, password=None, freq_band="2.4", channel=1, wpa_version="1+2",
+                  timeout=30):
+        """
+        Create a AP
+
+        :param wiface:
+        :param bridge:
+        :param ssid:
+        :param virt_prefix:
+        :param password:
+        :param freq_band:
+        :param channel:
+        :param wpa_version:
+        :param timeout:
+        :return:
+        """
         try:
             logger.info("Create AP {}".format(virt_prefix))
 
@@ -47,26 +72,19 @@ class CreateApHelper:
             os.system('nmcli r wifi off')
             os.system('rfkill unblock wlan')
 
-            os.system(
-                '/usr/bin/create_ap -m bridge {} {} {} {} --virt-prefix {} -c {} -w {} --no-dns --daemon'.format(wiface, bridge,
-                                                                                                        ssid, password,
-                                                                                                        virt_prefix,
-                                                                                                        channel,
-                                                                                                        wpa_version))
-            logger.info("Creating AP {}, waiting {}".format(virt_prefix, timeout))
-            # proc = subprocess.Popen(
-            #     ['create_ap', '-m', 'bridge', wiface, bridge, ssid, password, '--virt-prefix', virt_prefix, '-c',
-            #      str(channel), '-w', wpa_version, '--no-dns', '--daemon'])
-            #
-            # try:
-            #     returncode = proc.wait(timeout=timeout)
-            #     pass
-            # except subprocess.TimeoutExpired:
-            #     # proc.kill()
-            #     # outs, errs = proc.communicate()
-            #     pass
+            command = '/usr/bin/create_ap -m bridge {} {} {}'.format(wiface, bridge, ssid)
+            if password:
+                command = "{} {}".format(command, password)
+
+            if freq_band:
+                command = "{} --freq-band {}".format(command, freq_band)
+
+            command = '{} --virt-prefix {} -c {} -w {} --no-dns --daemon'.format(command, virt_prefix, channel,
+                                                                                 wpa_version)
+            os.system(command)
 
             # waiting for virtual WiFi to be created
+            logger.info("Creating AP {}, waiting {}".format(virt_prefix, timeout))
             time.sleep(timeout)
             # confirm creation
             last_ap_running = [ap['wlan'] for ap in CreateApHelper.list_ap_running() if virt_prefix in ap['wlan']]
@@ -79,3 +97,21 @@ class CreateApHelper:
         except Exception as e:
             logger.error(e)
             raise Exception("Could not create the ap interface with prefix {}".format(virt_prefix))
+
+        # os.system(
+        #     '/usr/bin/create_ap -m bridge {} {} {} {} --virt-prefix {} -c {} -w {} --no-dns --daemon'.format(wiface, bridge,
+        #                                                                                             ssid, password,
+        #                                                                                             virt_prefix,
+        #                                                                                             channel,
+        #                                                                                             wpa_version))
+        # proc = subprocess.Popen(
+        #     ['create_ap', '-m', 'bridge', wiface, bridge, ssid, password, '--virt-prefix', virt_prefix, '-c',
+        #      str(channel), '-w', wpa_version, '--no-dns', '--daemon'])
+        #
+        # try:
+        #     returncode = proc.wait(timeout=timeout)
+        #     pass
+        # except subprocess.TimeoutExpired:
+        #     # proc.kill()
+        #     # outs, errs = proc.communicate()
+        #     pass
