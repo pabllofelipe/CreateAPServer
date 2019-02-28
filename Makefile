@@ -1,7 +1,7 @@
 PREFIX=/opt/sw4iot/CreateAPServer
 SERVICE=sw4iot_ap_server.service
 SOCK=sw4iot_ap_server.sock
-RUN=/run/sw4iot
+RUN=/var/run/sw4iot
 
 all:
 	@echo "Run 'make install' for installation."

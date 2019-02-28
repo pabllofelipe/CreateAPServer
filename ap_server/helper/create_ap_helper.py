@@ -97,21 +97,3 @@ class CreateApHelper:
         except Exception as e:
             logger.error(e)
             raise Exception("Could not create the ap interface with prefix {}".format(virt_prefix))
-
-        # os.system(
-        #     '/usr/bin/create_ap -m bridge {} {} {} {} --virt-prefix {} -c {} -w {} --no-dns --daemon'.format(wiface, bridge,
-        #                                                                                             ssid, password,
-        #                                                                                             virt_prefix,
-        #                                                                                             channel,
-        #                                                                                             wpa_version))
-        # proc = subprocess.Popen(
-        #     ['create_ap', '-m', 'bridge', wiface, bridge, ssid, password, '--virt-prefix', virt_prefix, '-c',
-        #      str(channel), '-w', wpa_version, '--no-dns', '--daemon'])
-        #
-        # try:
-        #     returncode = proc.wait(timeout=timeout)
-        #     pass
-        # except subprocess.TimeoutExpired:
-        #     # proc.kill()
-        #     # outs, errs = proc.communicate()
-        #     pass
