@@ -49,7 +49,7 @@ class CreateApHelper:
     @staticmethod
     @retry(reraise=True, stop=stop_after_attempt(3))
     def create_ap(wiface, bridge, ssid, virt_prefix, password=None, freq_band="2.4", channel=1, wpa_version="1+2",
-                  timeout=30):
+                  timeout=20):
         """
         Create a AP
 
@@ -87,13 +87,13 @@ class CreateApHelper:
             logger.info("Creating AP {}, waiting {}".format(virt_prefix, timeout))
             time.sleep(timeout)
             # confirm creation
-            last_ap_running = [ap['wlan'] for ap in CreateApHelper.list_ap_running() if virt_prefix in ap['wlan']]
-            ap_diff = list(set(last_ap_running) - set(ap_running))
+            last_ap_running = [ap for ap in CreateApHelper.list_ap_running() if virt_prefix in ap['wlan']]
+            ap_diff = list(set([ap['wlan'] for ap in last_ap_running]) - set(ap_running))
             # if not, recreate
             if not len(ap_diff) > 0:
                 raise Exception("The ap was not created")
             # else, return the created virtual WiFi interface
-            return list(ap_diff)
+            return [ap for ap in last_ap_running if ap['wlan'] in ap_diff]
         except Exception as e:
             logger.error(e)
             raise Exception("Could not create the ap interface with prefix {}".format(virt_prefix))

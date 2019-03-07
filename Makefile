@@ -18,11 +18,12 @@ install:
 	# install dependencies
 	python3 -m venv $(PREFIX)/venv
 	$(PREFIX)/venv/bin/pip install -r requirements.txt
-	# 
+	# start services
 	systemctl stop $(SERVICE)
 	systemctl start $(SERVICE)
 	systemctl enable $(SERVICE)
 	systemctl daemon-reload
+	# create socket link
 	mkdir -p $(RUN)
 	ln -s $(PREFIX)/$(SOCK) $(RUN)/$(SOCK)
 
