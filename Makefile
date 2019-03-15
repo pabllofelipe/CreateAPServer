@@ -25,7 +25,6 @@ install:
 	systemctl daemon-reload
 	# create socket link
 	mkdir -p $(RUN)
-	ln -s $(PREFIX)/$(SOCK) $(RUN)/$(SOCK)
 
 uninstall:
 	# disable and remove service
