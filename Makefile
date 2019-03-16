@@ -1,7 +1,7 @@
 PREFIX=/opt/sw4iot/CreateAPServer
 SERVICE=sw4iot_ap_server.service
 SOCK=sw4iot_ap_server.sock
-RUN=/var/run/sw4iot
+RUN=/run/sw4iot
 
 all:
 	@echo "Run 'make install' for installation."
@@ -19,12 +19,9 @@ install:
 	python3 -m venv $(PREFIX)/venv
 	$(PREFIX)/venv/bin/pip install -r requirements.txt
 	# start services
-	systemctl stop $(SERVICE)
-	systemctl start $(SERVICE)
 	systemctl enable $(SERVICE)
 	systemctl daemon-reload
-	# create socket link
-	mkdir -p $(RUN)
+	systemctl start $(SERVICE)
 
 uninstall:
 	# disable and remove service
@@ -34,4 +31,4 @@ uninstall:
 	systemctl daemon-reload
 	# remove opt directory
 	rm -rf $(PREFIX)
-	rm $(RUN)/$(SOCK)
+	rm -rf $(RUN)/$(SOCK)
