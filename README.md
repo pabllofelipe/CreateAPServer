@@ -1,7 +1,7 @@
 # SOFTWAY4IoT-CreateAPServer
 Using [Flask](http://flask.pocoo.org/) to make a REST API which creates an access point (AP) Wi-Fi.
 
-Dependencies
+## Dependencies
 ```
 $ apt install python-dev
 $ apt install hostapd
