@@ -1,5 +1,5 @@
 # SOFTWAY4IoT-CreateAPServer
-Using [Flask](http://flask.pocoo.org/) to make a REST API which creates an access point (AP) Wi-Fi.
+Using [Flask](http://flask.pocoo.org/) to make a REST API via socket which creates an access point (AP) Wi-Fi.
 
 ## Dependencies
 ```
